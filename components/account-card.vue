@@ -5,7 +5,7 @@
               <i class="fa" :class="icon"></i>
             </span>
             <div class="account-name">{{account.name}}</div>
-            <div class="is-pulled-right" :class="classObject">{{account.balance}}</div>
+            <div class="is-pulled-right" :class="classObject">{{balance}}</div>
             <div v-if="isExpanded">
                 Botões 
             </div>
@@ -14,7 +14,8 @@
 </template>
 
 <script>
-
+import numeral from 'numeral'
+import numeralpt from 'numeral/locales/pt-br'
 export default {
     props: {
         account: {
@@ -28,15 +29,21 @@ export default {
         },
         icon () {
             switch (this.account.type) {
-                case 'cash': return {'account_balance_wallet':true}
-                case 'checking': return {'account_balance':true}
-                case 'savings': return {'monetization_on':true}
-                case 'creditcard': return {'credit_card':true}
+                case 'cash': return {'fa-money':true}
+                case 'checking': return {'fa-university':true}
+                case 'savings': return {'fa-dollars':true}
+                case 'creditcard': return {'fa-credit-card':true}
                 default: return 'help'
                     
             }      
         },
-        
+        balance () {
+            var balance = 'Erro'
+            if(!isNaN(this.account.balance)){
+                balance = numeral(this.account.balance/100).format('0,0.00')
+            }
+            return balance
+        }
     },
   data () {
       return {
@@ -54,5 +61,11 @@ export default {
     .account-name {
         display: inline-flex;
         margin-left: 16px;
+    }
+    .positive {
+        color:royalblue;
+    }
+    .negative {
+        color:red;
     }
 </style>

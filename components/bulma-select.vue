@@ -2,8 +2,8 @@
   <div class="field">
         <div class="control">
             <div class="select">
-                <select @input.prevent="$emit('input', $event.target.value)">
-                    <option value="">{{placeholder}}</option>
+                <select v-model="selected">
+                    <option disabled value="">{{placeholder}}</option>
                     <slot></slot>
                 </select>
             </div>
@@ -21,6 +21,16 @@ export default {
         },
         value: {
             type: String
+        }
+    },
+    computed: {
+        selected: {
+            get () {
+                return this.value
+            },
+            set (val) {
+                this.$emit('input', val)
+            }
         }
     }
 }

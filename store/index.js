@@ -5,7 +5,7 @@ const state = {
         {value:'checking', name:'Conta Corrente'},
         {value:'savings', name:'Poupança'},
         {value:'creditcard', name:'Cartão'},
-        {value:'cash', name:'Carteira'},
+        {value:'cash', name:'Dinheiro'},
     ]
 }
 

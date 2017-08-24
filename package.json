@@ -13,7 +13,12 @@
     "nuxt": "latest",
     "nuxt-pouch": "^0.1.0",
     "pouchdb-server": "^2.3.7"
-    
+  },
+  "config": {
+    "nuxt": {
+      "host": "0.0.0.0",
+      "port": "3327"
+    }
   },
   "scripts": {
     "dev": "concurrently \"npm run server\" \"nuxt\"",

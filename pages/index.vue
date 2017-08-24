@@ -1,12 +1,14 @@
 <template>
-  <div class="container is-widescreen">
-    <h1 class="title">Rosbank</h1>
-    <account v-for="account in accounts" :key="account.id" />
-    
-    <newAccount />
-    <div :class="['network',online ? 'online' : 'offline']">
-      <div class="circle"></div>
-      {{ online ? 'online' : 'offline' }}
+  <div>
+    <p class="title is-4">Rosbank</p>
+    <h3  v-if="accounts" class="subtitle is-6">Para começar, crie uma conta no formulário abaixo:</h3>
+    <div class="section">
+      <account v-for="account in accounts" :key="account.id" :account="account"/>
+      <newAccount />
+      <div :class="['network',online ? 'online' : 'offline']">
+        <div class="circle"></div>
+        {{ online ? 'online' : 'offline' }}
+      </div>
     </div>
   </div>
 </template>
@@ -14,6 +16,7 @@
 <script>
 import Account from '~/components/account-card'
 import newAccount from '~/components/new-account-card'
+
   export default {
     components: {Account, newAccount},
     data () {
@@ -24,9 +27,12 @@ import newAccount from '~/components/new-account-card'
     pouch: {
       accounts: {}
     },
+    computed: {
+
+    },
     created: function() {
       // Send all documents to the remote database, and stream changes in real-time
-      this.$pouch.sync('accounts', 'http://localhost:5984/accounts');
+      this.$pouch.sync('accounts', 'https://ed356ce5-932a-4357-91b9-452718aa46ba-bluemix:8d670900cec398689ee8f258e4e83161c389595fd4753d9f468013fbd529c466@ed356ce5-932a-4357-91b9-452718aa46ba-bluemix.cloudant.com/accounts');
     },
     mounted () {
       if (!window.navigator) {
