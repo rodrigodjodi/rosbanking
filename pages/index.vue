@@ -1,10 +1,8 @@
 <template>
   <div class="container is-widescreen">
     <h1 class="title">Rosbank</h1>
-    <account />
-    <account />
-    <account />
-    <account />
+    <account v-for="account in accounts" :key="account.id" />
+    
     <newAccount />
     <div :class="['network',online ? 'online' : 'offline']">
       <div class="circle"></div>

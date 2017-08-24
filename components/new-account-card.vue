@@ -1,5 +1,10 @@
 <template>
     <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">
+            Nova conta
+            </p>
+        </header>
         <div class="card-content">
             <form>
                 
@@ -8,30 +13,61 @@
                 </bulmaselect>
 
                 <div class="control">
-                    <input class="input" type="text" placeholder="Nome da conta...">
+                    <input v-model="name" class="input" type="text" placeholder="Nome da conta...">
                 </div>
                 <div class="control">
-                    <input class="input" type="number" placeholder="0,00">
+                    <input class="input" type="tel" v-model="balanceTxt"
+                 @keyup="updateValue($event.target.value)">
                 </div>
                 <p>{{type}}</p>
             </form>
                 
         </div>
+        <footer class="card-footer">
+            <a class="card-footer-item">Limpar</a>
+            <a class="card-footer-item" @click="submit">Criar conta</a>
+        </footer>
     </div>
 </template>
 
 <script>
 import bulmaselect from '~/components/bulma-select'
+import toID from '~/assets/toid'
+import numeral from 'numeral'
 export default {
     components: {bulmaselect},
     computed: {
         accountTypes () {
             return this.$store.state.accountTypes
+        },
+        id () {
+            return toID(this.name)
         }
     },
     data () {
         return {
-            type:''
+            type:'',
+            name:'',
+            balance: 0,
+            balanceTxt: ''
+        }
+    },
+    methods: {
+        submit () {
+
+        },
+        updateValue(value) {
+            var num
+            var int = value.replace(/([^0-9-]+)/g, '')
+            if (isNaN(value.replace(/([^0-9-]+)/g, '')/100)){
+                num = '-'
+                int = null
+            } else {
+                num = numeral(int/100).format('0,0.00')
+            }
+            
+            this.balanceTxt = num
+            this.balance = int
         }
     }
 }
