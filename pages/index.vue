@@ -1,7 +1,6 @@
 <template>
   <div>
-    <p class="title is-4">Rosbank</p>
-    <h3  v-if="accounts" class="subtitle is-6">Para começar, crie uma conta no formulário abaixo:</h3>
+    <p class="title is-4">Rosbank-Contas</p>
     <div class="section">
       <account v-for="account in accounts" :key="account.id" :account="account"/>
       <newAccount />
