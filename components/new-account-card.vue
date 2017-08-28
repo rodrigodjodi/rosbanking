@@ -32,12 +32,7 @@
                     <span v-show="errors.has('accountname')" class="help is-danger">{{ errors.first('accountname') }}</span>
                 </div>
 
-                <div class="field">
-                    <div class="control">
-                        <input class="input" type="tel" v-model="balanceTxt" placeholder="0,00"
-                            @keyup="updateValue($event.target.value)">
-                    </div>
-                </div>
+                <input-money v-model="balance"/>
                 <compact-picker v-model="colors" />
             </div>
             <footer class="card-footer">
@@ -51,16 +46,21 @@
 
 <script>
 import Vue from 'vue'
-
+import inputmoney from '~/components/input-money'
 import toID from '~/assets/toid'
-import numeral from 'numeral'
-import numeralpt from 'numeral/locales/pt-br'
+
 import {Compact} from 'vue-color'
 import validate from 'vee-validate'
-Vue.use(validate)
+import numeral from 'numeral'
+import numeralpt from 'numeral/locales/pt-br'
 numeral.locale('pt-br')
+Vue.use(validate)
 export default {
-    components:{'compact-picker': Compact},
+    components:{
+        'compact-picker': Compact,
+        'input-money': inputmoney
+        },
+
     computed: {
         accountTypes () {
             return this.$store.state.accountTypes
@@ -74,7 +74,6 @@ export default {
             type:'',
             name:'',
             balance: 0,
-            balanceTxt: '',
             isExpanded: false,
             colors: {}
         }
@@ -84,25 +83,19 @@ export default {
             this.$validator.validateAll()
             .then((valid) => {
                 if (!valid) throw new Error('Erros de validação encontrados')
-                return this.$pouch.post('accounts', {'_id': this.id, type:this.type, balance:this.balance, name:this.name, color:this.colors.hex})
+                return this.$pouch.post('accounts', {
+                    _id: this.id,
+                    type: this.type,
+                    balance: this.balance,
+                    name: this.name,
+                    color: this.colors.hex})
             })
             .then(this.clearFields)
             .then(() => this.isExpanded = false)
             .catch((err) => {console.error(err)})
 
         },
-        updateValue(value) {
-            var num
-            var int = value.replace(/([^0-9-]+)/g, '')
-            if (isNaN(value.replace(/([^0-9-]+)/g, '')/100)){
-                num = '-'
-                int = null
-            } else {
-                num = numeral(int/100).format('0,0.00')
-            }
-            this.balanceTxt = num
-            this.balance = int
-        },
+        
         clearFields () {
             this.type=''
             this.name=''

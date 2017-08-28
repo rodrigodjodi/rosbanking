@@ -9,7 +9,7 @@
         </div>
         <footer v-show="isExpanded" class="card-footer">
                 <div class="card-footer-item">
-                    <a>Transação</a>
+                    <nuxt-link :to="account._id+'/transaction'">Transação</nuxt-link>
                 </div>
                 <div class="card-footer-item">
                     <nuxt-link :to="account._id">Extrato</nuxt-link>

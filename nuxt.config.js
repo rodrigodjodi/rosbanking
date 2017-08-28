@@ -8,7 +8,11 @@ module.exports = {
   ** Headers
   ** Common headers are already provided by @nuxtjs/pwa preset
   */
-  head: {},
+  head: {
+    script: [
+      { src: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBwH-VO2mJrTH1ztauPOzeXDVEJEREvaP4&libraries=places' }
+    ],
+  },
   /*
   ** Customize the progress-bar color
   */
