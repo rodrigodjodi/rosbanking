@@ -1,9 +1,9 @@
 <template>
     <div>
-        <p class="title is-4">{{editing ? 'Editar transação' : 'Nova transação'}}</p>
+        <p class="title is-4">Nova transação genérica</p>
             <div class="section">
                 <input-money v-model="doc.amount"/>
-                
+
                 <p class="control">
                     <vue-google-autocomplete
                     v-model="doc.who"
@@ -11,7 +11,7 @@
                     classname="input"
                     placeholder="Quem / Onde..."
                     :enable-geolocation="true"
-                    
+
                 >
                 </vue-google-autocomplete>
                 </p>
@@ -27,6 +27,7 @@ import numeral from 'numeral'
 import numeralpt from 'numeral/locales/pt-br'
 numeral.locale('pt-br')
 import VueGoogleAutocomplete from '~/components/vuegoogleautocomplete'
+
 export default {
     components: {
         'input-money': inputmoney,
@@ -36,28 +37,13 @@ export default {
     return {
         doc: {
             amount: 0,
-            who: ''
+            who: '',
+            account: this.$route.params.account,
+            due: '',
+            when:''
         },
     }
 
   },
-  computed: {
-      editing () {
-          return this.$route.params.id ? true : false
-      },
-     
-  },
-  created () {
-      if (this.$route.params.id) {
-          //get the doc
-      }
-  },
-  methods: {
-      setPlaceData (apidata, place) {
-          console.log(place.name)
-          console.log(this)
-          this.doc.who = place.name
-      }
-  }
-} 
+}
 </script>
