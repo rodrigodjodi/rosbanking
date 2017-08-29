@@ -1,5 +1,7 @@
 <template>
     <div>
+      <h1 class="title">Todas as transações, filtro, nova transação</h1>
+      <h2 class="subtitle">O filtro por um objeto na query</h2>
         <p class="title is-4">Nova transação genérica</p>
             <div class="section">
                 <input-money v-model="doc.amount"/>
