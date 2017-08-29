@@ -1,26 +1,28 @@
 <template>
   <div>
     <p class="title is-4">Rosbank-Contas</p>
+    <button class="button" @click="modal = true">Nova conta</button>
     <div class="section">
       <account v-for="account in accounts" :key="account.id" :account="account"/>
-      <newAccount />
       <div :class="['network',online ? 'online' : 'offline']">
         <div class="circle"></div>
         {{ online ? 'online' : 'offline' }}
       </div>
     </div>
+    <newAccount v-if="modal" class="is-active" @close="modal=false"/>
   </div>
 </template>
 
 <script>
 import Account from '~/components/account-card'
-import newAccount from '~/components/new-account-card'
+const newAccount = () => import('~/components/new-account-card')
 
   export default {
     components: {Account, newAccount},
     data () {
       return {
-        online: true
+        online: true,
+        modal: false
       }
     },
     pouch: {

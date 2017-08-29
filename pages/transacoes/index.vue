@@ -1,26 +1,22 @@
 <template>
-    <div>
-      <h1 class="title">Todas as transações, filtro, nova transação</h1>
-      <h2 class="subtitle">O filtro por um objeto na query</h2>
-        <p class="title is-4">Nova transação genérica</p>
-            <div class="section">
-                <input-money v-model="doc.amount"/>
-
-                <p class="control">
-                    <vue-google-autocomplete
-                    v-model="doc.who"
-                    id="map"
-                    classname="input"
-                    placeholder="Quem / Onde..."
-                    :enable-geolocation="true"
-
-                >
-                </vue-google-autocomplete>
-                </p>
-            </div>
-        <div>Conta: {{ $route.params.account }}</div>
-        <div>transacao: {{ $route.params.id }}</div>
+  <div>
+    <h1 class="title">Todas as transações, filtro, nova transação</h1>
+    <h2 class="subtitle">O filtro por um objeto na query</h2>
+    <p class="title is-4">Nova transação genérica</p>
+    <div class="section">
+      <input-money v-model="doc.amount"/>
+      <p class="control">
+          <vue-google-autocomplete
+            v-model="doc.who"
+            id="map"
+            classname="input"
+            placeholder="Quem / Onde..."
+            :enable-geolocation="true"
+          >
+          </vue-google-autocomplete>
+      </p>
     </div>
+  </div>
 </template>
 
 <script>

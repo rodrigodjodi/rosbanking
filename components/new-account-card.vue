@@ -1,47 +1,44 @@
 <template>
-    <div class="card card-active">
-        <form>
-        <header class="card-header" @click="isExpanded = !isExpanded">
-            <p class="card-header-title">
-            Nova conta
-            </p>
-            <a class="card-header-icon">
-                <span class="icon">
-                    <i class="fa fa-angle-down"></i>
-                </span>
-            </a>
-        </header>
-        <template v-if="isExpanded">
-            <div class="card-content">
-                <div class="field">
-                    <div class="control">
-                        <div class="select">
-                            <select v-model="type" :class="{'is-danger': errors.has('accounttype')}" name="accounttype" v-validate="'required'">    
-                                <option disabled value="">Tipo...</option>
-                                <option v-for="accountType in accountTypes" :value="accountType.value" :key="accountType.value">{{accountType.name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+  <div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
 
-                <div class="field">
-                    <div class="control">
-                        <input v-model="name" :class="{'input':true, 'is-danger': errors.has('accountname')}"
-                        type="text" placeholder="Nome da conta..." v-validate="'required'" name="accountname">
-                    </div>
-                    <span v-show="errors.has('accountname')" class="help is-danger">{{ errors.first('accountname') }}</span>
-                </div>
+      <header class="modal-card-head">
+          <p class="modal-card-title">
+          Nova conta
+          </p>
+          <button class="delete" aria-label="close" @click="$emit('close')"></button>
+      </header>
 
-                <input-money v-model="balance"/>
-                <compact-picker v-model="colors" />
+      <div class="modal-card-body">
+        <div class="field">
+            <div class="control">
+                <div class="select">
+                    <select v-model="type" :class="{'is-danger': errors.has('accounttype')}" name="accounttype" v-validate="'required'">
+                        <option disabled value="">Tipo...</option>
+                        <option v-for="accountType in accountTypes" :value="accountType.value" :key="accountType.value">{{accountType.name}}</option>
+                    </select>
+                </div>
             </div>
-            <footer class="card-footer">
-                <a class="card-footer-item" @click="clearFields">Limpar</a>
-                <a class="card-footer-item is-primary" @click="submit">Criar conta</a>
-            </footer>
-        </template>
-        </form>
+        </div>
+        <div class="field">
+            <div class="control">
+                <input v-model="name" :class="{'input':true, 'is-danger': errors.has('accountname')}"
+                type="text" placeholder="Nome da conta..." v-validate="'required'" name="accountname">
+            </div>
+            <span v-show="errors.has('accountname')" class="help is-danger">{{ errors.first('accountname') }}</span>
+        </div>
+        <input-money v-model="balance"/>
+        <compact-picker v-model="colors" />
+      </div>
+
+      <footer class="modal-card-foot">
+          <button class="button" @click="clearFields">Limpar</button>
+          <button class="button is-success" @click="submit">Criar conta</button>
+      </footer>
     </div>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -91,18 +88,18 @@ export default {
                     color: this.colors.hex})
             })
             .then(this.clearFields)
-            .then(() => this.isExpanded = false)
+            .then(() => this.$emit('close'))
             .catch((err) => {console.error(err)})
 
         },
-        
+
         clearFields () {
             this.type=''
             this.name=''
             this.balance= 0
             this.balanceTxt= ''
-        }   
-  
+        }
+
     }
 }
 </script>

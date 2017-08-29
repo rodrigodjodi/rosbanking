@@ -7,15 +7,6 @@
             <div class="account-name">{{account.name}}</div>
             <div class="is-pulled-right" :class="balanceColor">{{balance}}</div>
         </div>
-        <footer v-show="isExpanded" class="card-footer">
-                <div class="card-footer-item">
-                    <nuxt-link :to="account._id+'/transaction'">Transação</nuxt-link>
-                </div>
-                <div class="card-footer-item">
-                    <nuxt-link :to="account._id">Extrato</nuxt-link>
-                </div>
-                
-        </footer>
     </div>
 </template>
 
@@ -40,8 +31,8 @@ export default {
                 case 'savings': return {'fa-dollars':true}
                 case 'creditcard': return {'fa-credit-card':true}
                 default: return {'fa-question':true}
-                    
-            }      
+
+            }
         },
         balance () {
             var balance = 'Erro'
@@ -70,7 +61,7 @@ export default {
     .account-name {
         display: inline-flex;
         margin-left: 16px;
-        font-weight: 500 
+        font-weight: 500
     }
     .positive {
         color:royalblue;
