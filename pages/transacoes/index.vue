@@ -1,45 +1,25 @@
 <template>
   <div>
-    <h1 class="title">Todas as transações, filtro, nova transação</h1>
-    <h2 class="subtitle">O filtro por um objeto na query</h2>
-    <p class="title is-4">Nova transação genérica</p>
+    <pageHeader>
+    </pageHeader>
     <div class="section">
-      <input-money v-model="doc.amount"/>
-      <p class="control">
-          <vue-google-autocomplete
-            v-model="doc.who"
-            id="map"
-            classname="input"
-            placeholder="Quem / Onde..."
-            :enable-geolocation="true"
-          >
-          </vue-google-autocomplete>
-      </p>
+      <newTransaction v-if="modal" />
+
     </div>
   </div>
 </template>
 
 <script>
-import inputmoney from '~/components/input-money'
-import numeral from 'numeral'
-import numeralpt from 'numeral/locales/pt-br'
-numeral.locale('pt-br')
-import VueGoogleAutocomplete from '~/components/vuegoogleautocomplete'
+import pageHeader from '~/components/page-header'
+const newTransaction = () => import('~/components/new-transaction')
 
 export default {
     components: {
-        'input-money': inputmoney,
-        VueGoogleAutocomplete
+        newTransaction, pageHeader
     },
   data () {
     return {
-        doc: {
-            amount: 0,
-            who: '',
-            account: this.$route.params.account,
-            due: '',
-            when:''
-        },
+        modal:true
     }
 
   },

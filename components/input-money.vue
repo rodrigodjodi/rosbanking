@@ -1,7 +1,7 @@
 <template>
     <div class="field">
         <div class="control">
-            <input class="input" type="text" :value="valuetxt" inputmode="numeric"
+            <input class="input is-large" type="text" :value="valuetxt" inputmode="numeric"
                 @keyup="updateValue($event.target.value)">
         </div>
     </div>
@@ -19,13 +19,13 @@ export default {
       }
   },
   computed: {
-      valuetxt: { 
+      valuetxt: {
            get () { // converts the value from number to string
                return numeral(this.value/100).format('0,0.00')
            },
            set(val) {
                return val
-           }  
+           }
           },
   },
   methods: {
@@ -39,7 +39,7 @@ export default {
             int = converted
         }
 
-        this.$emit('input', int) 
+        this.$emit('input', int)
         },
   }
 }
