@@ -3,7 +3,7 @@
     <pageHeader>
     </pageHeader>
     <div class="section">
-      <newTransaction v-if="modal" />
+      <newTransaction v-if="modal" :accounts="accounts"/>
 
     </div>
   </div>
@@ -21,7 +21,11 @@ export default {
     return {
         modal:true
     }
-
   },
+  pouch: {
+    accounts: {}
+  }
+
+
 }
 </script>

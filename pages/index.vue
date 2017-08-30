@@ -9,7 +9,7 @@
     </pageHeader>
 
     <div>
-      <account v-for="account in accounts" :key="account.id" :account="account"/>
+      <account v-for="account in accounts" :key="account._id" :account="account"/>
       <div :class="['network',online ? 'online' : 'offline']">
         <div class="circle"></div>
         {{ online ? 'online' : 'offline' }}

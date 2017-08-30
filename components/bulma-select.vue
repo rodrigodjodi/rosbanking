@@ -2,9 +2,9 @@
   <div class="field">
         <div class="control">
             <div class="select">
-                <select v-model="selected">
+                <select v-model="selected" :disabled="isDisabled">
                     <option disabled value="">{{placeholder}}</option>
-                    <slot></slot>
+                    <option v-for="option in options" :key="option._id" :value="option._id">{{option.name}}</option>
                 </select>
             </div>
         </div>
@@ -20,7 +20,16 @@ export default {
             default: 'Selecione...'
         },
         value: {
-            type: String
+            type: String,
+            required: true
+        },
+        options: {
+          type: Array,
+          required: true
+        },
+        isDisabled: {
+          type: Boolean,
+          default: false
         }
     },
     computed: {
