@@ -1,7 +1,7 @@
 {
   "name": "rosbanking",
-  "version": "1.0.0",
-  "description": "O rosbank feito com nuxt, tentando usar nuxt-pouch como banco de dados.",
+  "version": "0.1.0",
+  "description": "O rosbank feito com nuxt-pwa e pouchdb.",
   "author": "rodrigodjodi <rodrigo.djodi@gmail.com>",
   "private": true,
   "dependencies": {
@@ -10,7 +10,6 @@
     "font-awesome": "^4.7.0",
     "numeral": "^2.0.6",
     "nuxt": "latest",
-    "nuxt-pouch": "^0.1.0",
     "vee-validate": "^2.0.0-rc.14",
     "vue-color": "^2.4.0"
   },
@@ -23,6 +22,7 @@
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
+    "analyze": "nuxt build -a",
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",

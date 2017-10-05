@@ -3,7 +3,9 @@ module.exports = {
   /*
   ** Build configuration
   */
-  build: {},
+  build: {
+    vendor: ['pouchdb'],
+  },
   /*
   ** Headers
   ** Common headers are already provided by @nuxtjs/pwa preset
@@ -27,7 +29,7 @@ module.exports = {
   ** Modules
   */
   modules: [
-    '@nuxtjs/pwa', 'nuxt-pouch'
+    '@nuxtjs/pwa'
   ],
   css: [
     { src: 'bulma/bulma.sass', lang: 'sass' },

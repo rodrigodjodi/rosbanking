@@ -9,7 +9,7 @@
     </pageHeader>
 
     <div>
-      <account v-for="account in accounts" :key="account._id" :account="account"/>
+      <account v-for="account in accounts" :key="account.key" :account="account.doc"/>
       <div :class="['network',online ? 'online' : 'offline']">
         <div class="circle"></div>
         {{ online ? 'online' : 'offline' }}
@@ -23,24 +23,35 @@
 import pageHeader from '~/components/page-header'
 import Account from '~/components/account-card'
 const newAccount = () => import('~/components/new-account-card')
-
+import PouchDB from 'pouchdb'
+const db = new PouchDB('accounts')
+const remote = new PouchDB('https://ed356ce5-932a-4357-91b9-452718aa46ba-bluemix:8d670900cec398689ee8f258e4e83161c389595fd4753d9f468013fbd529c466@ed356ce5-932a-4357-91b9-452718aa46ba-bluemix.cloudant.com/accounts')
 export default {
   components: {Account, newAccount, pageHeader},
   data () {
     return {
       online: true,
-      modal: false
+      modal: false,
+      accounts:[]
     }
   },
-  pouch: {
-    accounts: {}
+  asyncData ({params, error}) {
+    return db.allDocs({include_docs:true})
+    .then((docs) => {
+      console.log(docs.rows)
+      return {
+        accounts: docs.rows
+      }
+    }).catch((err) => {
+      error({ statusCode: 404, message: 'Accounts not found' })
+    })
   },
   computed: {
 
   },
   created: function() {
     // Send all documents to the remote database, and stream changes in real-time
-    this.$pouch.sync('accounts', 'https://ed356ce5-932a-4357-91b9-452718aa46ba-bluemix:8d670900cec398689ee8f258e4e83161c389595fd4753d9f468013fbd529c466@ed356ce5-932a-4357-91b9-452718aa46ba-bluemix.cloudant.com/accounts');
+    db.sync(remote);
   },
   mounted () {
     if (!window.navigator) {
