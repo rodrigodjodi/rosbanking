@@ -1,33 +1,29 @@
 <template>
   <div>
-    <pageHeader>
-        <a class="is-primary is-pulled-right" @click="modal = true">
-          <span class="icon">
-            <i class="fa fa-plus"></i>
-          </span>
+    <pageHeader title="Contas">
+        <a class="button is-pulled-right" @click="modal = true">
+          Nova conta
         </a>
     </pageHeader>
 
     <div>
-      <account v-for="account in accounts" :key="account.key" :account="account.doc"/>
+      <account-card v-for="account in accounts" :key="account.key" :account="account.doc"/>
       <div :class="['network',online ? 'online' : 'offline']">
         <div class="circle"></div>
         {{ online ? 'online' : 'offline' }}
       </div>
     </div>
-    <newAccount v-if="modal" class="is-active" @close="modal=false"/>
+    <new-account v-if="modal" class="is-active" @close="modal=false"/>
   </div>
 </template>
 
 <script>
-import pageHeader from '~/components/page-header'
-import Account from '~/components/account-card'
-const newAccount = () => import('~/components/new-account-card')
-import PouchDB from 'pouchdb'
-const db = new PouchDB('accounts')
-const remote = new PouchDB('https://ed356ce5-932a-4357-91b9-452718aa46ba-bluemix:8d670900cec398689ee8f258e4e83161c389595fd4753d9f468013fbd529c466@ed356ce5-932a-4357-91b9-452718aa46ba-bluemix.cloudant.com/accounts')
+import PageHeader from '~/components/page-header'
+import AccountCard from '~/components/account-card'
+const NewAccount = () => import('~/components/account-new')
+import {accountsLocal, accountsRemote} from '~/assets/database'
 export default {
-  components: {Account, newAccount, pageHeader},
+  components: {AccountCard, NewAccount, PageHeader},
   data () {
     return {
       online: true,
@@ -36,9 +32,8 @@ export default {
     }
   },
   asyncData ({params, error}) {
-    return db.allDocs({include_docs:true})
+    return accountsLocal.allDocs({include_docs:true})
     .then((docs) => {
-      console.log(docs.rows)
       return {
         accounts: docs.rows
       }
@@ -51,7 +46,7 @@ export default {
   },
   created: function() {
     // Send all documents to the remote database, and stream changes in real-time
-    db.sync(remote);
+    accountsLocal.sync(accountsRemote);
   },
   mounted () {
     if (!window.navigator) {

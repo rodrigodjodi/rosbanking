@@ -14,7 +14,10 @@
         <div class="field">
             <div class="control">
                 <div class="select">
-                    <select v-model="type" :class="{'is-danger': errors.has('accounttype')}" name="accounttype" v-validate="'required'">
+                    <select v-model="type" 
+                        :class="{'is-danger': errors.has('accounttype')}"
+                        name="accounttype"
+                        v-validate="'required'">
                         <option disabled value="">Tipo...</option>
                         <option v-for="accountType in accountTypes" :value="accountType.value" :key="accountType.value">{{accountType.name}}</option>
                     </select>
@@ -23,10 +26,17 @@
         </div>
         <div class="field">
             <div class="control">
-                <input v-model="name" :class="{'input':true, 'is-danger': errors.has('accountname')}"
-                type="text" placeholder="Nome da conta..." v-validate="'required'" name="accountname">
+                <input v-model="name"
+                    :class="{'input':true, 'is-danger': errors.has('accountname')}"
+                    type="text"
+                    placeholder="Nome da conta..."
+                    v-validate="'required'"
+                    name="accountname" />
             </div>
-            <span v-show="errors.has('accountname')" class="help is-danger">{{ errors.first('accountname') }}</span>
+            <span v-show="errors.has('accountname')" 
+                class="help is-danger">
+                {{ errors.first('accountname') }}
+             </span>
         </div>
         <input-money v-model="balance"/>
         <compact-picker v-model="colors" />
@@ -45,7 +55,7 @@
 import Vue from 'vue'
 import inputmoney from '~/components/input-money'
 import toID from '~/assets/toid'
-
+import {accountsLocal, accountsRemote} from '~/assets/database'
 import {Compact} from 'vue-color'
 import validate from 'vee-validate'
 import numeral from 'numeral'
@@ -71,7 +81,6 @@ export default {
             type:'',
             name:'',
             balance: 0,
-            isExpanded: false,
             colors: {}
         }
     },
@@ -80,7 +89,7 @@ export default {
             this.$validator.validateAll()
             .then((valid) => {
                 if (!valid) throw new Error('Erros de validação encontrados')
-                return this.$pouch.post('accounts', {
+                return accountsLocal.put({
                     _id: this.id,
                     type: this.type,
                     balance: this.balance,

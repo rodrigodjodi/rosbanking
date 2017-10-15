@@ -10,6 +10,7 @@
     "font-awesome": "^4.7.0",
     "numeral": "^2.0.6",
     "nuxt": "latest",
+    "pouchdb": "^6.3.4",
     "vee-validate": "^2.0.0-rc.14",
     "vue-color": "^2.4.0"
   },

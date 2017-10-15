@@ -14,7 +14,7 @@
 
 <script>
 import Account from '~/components/account-card'
-import newAccount from '~/components/new-account-card'
+import newAccount from '~/components/account-new'
 
   export default {
     components: {Account, newAccount},

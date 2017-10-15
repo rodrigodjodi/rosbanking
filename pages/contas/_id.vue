@@ -1,34 +1,50 @@
 <template>
   <div>
-    <h1 class="title">Conta específica: {{account._id}}</h1>
-    <h2 class="subtitle">Se não encontrar a conta no banco emitir aviso</h2>
+    <pageHeader :title="account.name" :back-button="true" :titleEdit="editingTitle"
+      @close="editingTitle=false">
+        <AccountDropdownMenu @edit="editingTitle = true"
+          class="is-pulled-right"
+        >
+        </AccountDropdownMenu>
+        <span class="icon is-pulled-right" @click="modalVisible = true">
+          <i class="fa fa-plus"></i>
+        </span>
+    </pageHeader>
+    
     <div>
       DIV transações
     </div>
     <div>
-      <newTransaction v-if="modal" :accounts="accounts"/>
+      <newTransaction v-if="modalVisible" :accounts="accounts"/>
     </div>
   </div>
 </template>
 
 <script>
+import PageHeader from '~/components/page-header'
+import AccountDropdownMenu from '~/components/account-dropdown-menu'
 const newTransaction = () => import('~/components/new-transaction')
-console.log(this.account)
+import PouchDB from 'pouchdb'
+const db = new PouchDB('accounts')
+const remote = new PouchDB('https://ed356ce5-932a-4357-91b9-452718aa46ba-bluemix:8d670900cec398689ee8f258e4e83161c389595fd4753d9f468013fbd529c466@ed356ce5-932a-4357-91b9-452718aa46ba-bluemix.cloudant.com/accounts')
 export default {
-  components: {newTransaction},
+  components: {newTransaction, PageHeader, AccountDropdownMenu},
   data () {
     return {
-      modal: true,
+      modalVisible: false,
+      account: null,
+      editingTitle: false
     }
   },
-  pouch: {
-    accounts: {},
-    account: function () {
+  asyncData ({params, error}) {
+    return db.get(params.id)
+    .then((doc) => {
       return {
-        database:'accounts',
-        selector: {_id: 'itau'}
+        account: doc
       }
-    }
+    }).catch((err) => {
+      error({ statusCode: 404, message: 'Nenhuma conta com esse nome foi encontrada' })
+    })
   },
 }
 </script>

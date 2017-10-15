@@ -1,13 +1,13 @@
 <template>
-    <div class="card" :class="{expanded:isExpanded}">
-        <div class="card-content" @click="isExpanded = !isExpanded">
+    <nuxt-link tag="div" :to="'contas/' + account._id " class="card">
+        <div class="card-content">
             <span class="icon" :style="{color: accountcolor}">
               <i class="fa" :class="icon"></i>
             </span>
             <div class="account-name">{{account.name}}</div>
             <div class="is-pulled-right" :class="balanceColor">{{balance}}</div>
         </div>
-    </div>
+    </nuxt-link>
 </template>
 
 <script>
@@ -47,7 +47,7 @@ export default {
     },
   data () {
       return {
-          isExpanded: false,
+          
       }
   }
 }
