@@ -56,6 +56,26 @@ export default {
     this.online = Boolean(window.navigator.onLine)
     window.addEventListener('offline', this._toggleNetworkStatus)
     window.addEventListener('online', this._toggleNetworkStatus)
+    var changes = accountsLocal.changes({
+      since: 'now',
+      live: true,
+      include_docs: true
+    }).on('change', (change) => {
+      // handle change
+      console.log('change detectd', change)
+      this.accounts.push({
+        doc: change.doc,
+        id: change.id,
+        key: change.id,
+        value: {
+          rev: change.doc._rev
+        }
+      })
+    }).on('complete', function(info) {
+      // changes() was canceled
+    }).on('error', function (err) {
+      console.log(err);
+    });
   },
   methods: {
     _toggleNetworkStatus ({ type }) {
