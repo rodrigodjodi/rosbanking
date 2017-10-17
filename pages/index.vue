@@ -13,17 +13,17 @@
         {{ online ? 'online' : 'offline' }}
       </div>
     </div>
-    <new-account v-if="modal" class="is-active" @close="modal=false"/>
+    <account-form v-if="modal" class="is-active" @close="modal=false"/>
   </div>
 </template>
 
 <script>
 import PageHeader from '~/components/page-header'
 import AccountCard from '~/components/account-card'
-const NewAccount = () => import('~/components/account-new')
+const accountForm = () => import('~/components/account-form')
 import {accountsLocal, accountsRemote} from '~/assets/database'
 export default {
-  components: {AccountCard, NewAccount, PageHeader},
+  components: {AccountCard, accountForm, PageHeader},
   data () {
     return {
       online: true,

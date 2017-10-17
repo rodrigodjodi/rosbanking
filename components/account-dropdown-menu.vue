@@ -9,9 +9,10 @@
     <div class="dropdown-content">
       <a href="#" class="dropdown-item"
         @click="$emit('edit')">
-        Renomear 
+        Propriedades 
       </a>
-      <a class="dropdown-item">
+      <a class="dropdown-item"
+        @click="$emit('remove')>
         Remover
       </a>
     </div>

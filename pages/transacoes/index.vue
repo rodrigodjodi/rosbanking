@@ -3,7 +3,7 @@
     <pageHeader>
     </pageHeader>
     <div class="section">
-      <newTransaction v-if="modal" :accounts="accounts"/>
+      <transaction-form v-if="modal" :accounts="accounts"/>
 
     </div>
   </div>
@@ -11,11 +11,11 @@
 
 <script>
 import pageHeader from '~/components/page-header'
-const newTransaction = () => import('~/components/new-transaction')
+const transactionForm = () => import('~/components/transaction-form')
 
 export default {
     components: {
-        newTransaction, pageHeader
+        transactionForm, pageHeader
     },
   data () {
     return {

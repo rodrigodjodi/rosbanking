@@ -3,7 +3,7 @@
     <p class="title is-4">Rosbank-Contas</p>
     <div class="section">
       <account v-for="account in accounts" :key="account.id" :account="account"/>
-      <newAccount />
+      <account-form />
       <div :class="['network',online ? 'online' : 'offline']">
         <div class="circle"></div>
         {{ online ? 'online' : 'offline' }}
@@ -14,10 +14,10 @@
 
 <script>
 import Account from '~/components/account-card'
-import newAccount from '~/components/account-new'
+import accountForm from '~/components/account-form'
 
   export default {
-    components: {Account, newAccount},
+    components: {Account, accountForm},
     data () {
       return {
         online: true
