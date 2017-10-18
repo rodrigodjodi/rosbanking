@@ -32,7 +32,7 @@ module.exports = {
     '@nuxtjs/pwa'
   ],
   css: [
-    { src: 'bulma/bulma.sass', lang: 'sass' },
+    'bulma',
     { src: 'font-awesome/scss/font-awesome.scss', lang: 'scss' }
   ]
 }

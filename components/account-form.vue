@@ -14,7 +14,7 @@
         <div class="field">
             <div class="control">
                 <div class="select">
-                    <select v-model="type" 
+                    <select v-model="account.type" 
                         :class="{'is-danger': errors.has('accounttype')}"
                         name="accounttype"
                         v-validate="'required'">
@@ -26,7 +26,7 @@
         </div>
         <div class="field">
             <div class="control">
-                <input v-model="name"
+                <input v-model="account.name"
                     :class="{'input':true, 'is-danger': errors.has('accountname')}"
                     type="text"
                     placeholder="Nome da conta..."
@@ -38,8 +38,8 @@
                 {{ errors.first('accountname') }}
              </span>
         </div>
-        <input-money v-model="balance"/>
-        <compact-picker v-model="colors" />
+        <input-money v-model="account.balance"/>
+        <compact-picker v-model="account.colors" />
       </div>
 
       <footer class="modal-card-foot">
@@ -67,22 +67,22 @@ export default {
         'compact-picker': Compact,
         'input-money': inputmoney
         },
+    props: {
+        account: {
+            type: Object,
+        }
+    },
 
     computed: {
         accountTypes () {
             return this.$store.state.accountTypes
         },
         id () {
-            return toID(this.name)
+            return toID(this.account.name)
         }
     },
     data () {
-        return {
-            type:'',
-            name:'',
-            balance: 0,
-            colors: {}
-        }
+        return {}
     },
     methods: {
         submit () {
@@ -91,10 +91,10 @@ export default {
                 if (!valid) throw new Error('Erros de validação encontrados')
                 return accountsLocal.put({
                     _id: this.id,
-                    type: this.type,
-                    balance: this.balance,
-                    name: this.name,
-                    color: this.colors.hex})
+                    type: this.account.type,
+                    balance: this.account.balance,
+                    name: this.account.name,
+                    color: this.account.colors.hex})
             })
             .then(this.clearFields)
             .then(() => this.$emit('close'))

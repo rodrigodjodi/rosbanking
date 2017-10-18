@@ -45,8 +45,27 @@ export default {
 
   },
   created: function() {
-    // Send all documents to the remote database, and stream changes in real-time
-    accountsLocal.sync(accountsRemote);
+    var opts = { live: true, retry: true };
+    accountsLocal.replicate.from(accountsRemote)
+    .on('complete', (info) => {
+      this.getAccounts()
+      accountsLocal.sync(accountsRemote, opts)
+      .on('change',  (info) => {
+          this.getAccounts()
+      }).on('paused', function (err) {
+        // replication paused (e.g. replication up to date, user went offline)
+      }).on('active', function () {
+        // replicate resumed (e.g. new changes replicating, user went back online)
+      }).on('denied', function (err) {
+        // a document failed to replicate (e.g. due to permissions)
+      }).on('complete', function (info) {
+        // handle complete
+      }).on('error', function (err) {
+          // handle error
+      });
+    }).on('error', function (err) {
+    
+    })
   },
   mounted () {
     if (!window.navigator) {
@@ -56,30 +75,18 @@ export default {
     this.online = Boolean(window.navigator.onLine)
     window.addEventListener('offline', this._toggleNetworkStatus)
     window.addEventListener('online', this._toggleNetworkStatus)
-    var changes = accountsLocal.changes({
-      since: 'now',
-      live: true,
-      include_docs: true
-    }).on('change', (change) => {
-      // handle change
-      console.log('change detectd', change)
-      this.accounts.push({
-        doc: change.doc,
-        id: change.id,
-        key: change.id,
-        value: {
-          rev: change.doc._rev
-        }
-      })
-    }).on('complete', function(info) {
-      // changes() was canceled
-    }).on('error', function (err) {
-      console.log(err);
-    });
   },
   methods: {
     _toggleNetworkStatus ({ type }) {
       this.online = type === 'online'
+    },
+    getAccounts() {
+      return accountsLocal.allDocs({include_docs:true})
+    .then((docs) => {
+        this.accounts = docs.rows
+    }).catch((err) => {
+      error({ statusCode: 404, message: 'Accounts not found' })
+    })
     }
   },
   destroyed () {

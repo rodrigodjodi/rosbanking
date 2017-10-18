@@ -4,11 +4,10 @@
       :back-button="true" >
       <!-- This is the slot area
       |icons here will be pulled to the right -->
-        <AccountDropdownMenu
-          class="is-pulled-right"
-        >
-        </AccountDropdownMenu>
-        <span class="icon is-pulled-right" @click="modalVisible = true">
+        <span class="icon is-pulled-right" @click="AccountFormVisible = true">
+          <i class="fa fa-pencil"></i>
+        </span>
+        <span class="icon is-pulled-right" @click="transactionFormVisible = true">
           <i class="fa fa-plus"></i>
         </span>
       <!--end of slot-->
@@ -18,8 +17,13 @@
       DIV transações
     </div>
     <div>
-      <newTransaction v-if="transactionFormVisible" @close="transactionFormVisible=false"/>
-      <account-form v-if="AccountFormVisible" class="is-active" @close="AccountFormVisible=false"/>
+      <transaction-form 
+        v-if="transactionFormVisible" 
+        @close="transactionFormVisible=false" />
+      <account-form v-if="AccountFormVisible" 
+        class="is-active"
+         @close="AccountFormVisible=false"
+         :account="account"/>
     </div>
   </div>
 </template>
