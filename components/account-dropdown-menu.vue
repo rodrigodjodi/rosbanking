@@ -12,7 +12,7 @@
         Propriedades 
       </a>
       <a class="dropdown-item"
-        @click="$emit('remove')>
+        @click="$emit('remove')">
         Remover
       </a>
     </div>

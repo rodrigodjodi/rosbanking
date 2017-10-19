@@ -1,9 +1,9 @@
 <template>
   <div>
-    <pageHeader>
-    </pageHeader>
+    <page-header>
+    </page-header>
     <div class="section">
-      <transaction-form v-if="modal" :accounts="accounts"/>
+      <p>Lista geral de transações com filtros</p>
 
     </div>
   </div>
@@ -11,11 +11,11 @@
 
 <script>
 import pageHeader from '~/components/page-header'
-const transactionForm = () => import('~/components/transaction-form')
+
 
 export default {
     components: {
-        transactionForm, pageHeader
+        pageHeader
     },
   data () {
     return {

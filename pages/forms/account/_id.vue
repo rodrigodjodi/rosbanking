@@ -1,16 +1,14 @@
 <template>
-  <div class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
+  <div>
+    <pageHeader :title="title">
+        <!--slot:icons here will be pulled to the right -->
+        <span class="icon is-pulled-right">
+          <i class="fa fa-times"></i>
+        </span>
 
-      <header class="modal-card-head">
-          <p class="modal-card-title">
-          Nova conta
-          </p>
-          <button class="delete" aria-label="close" @click="$emit('close')"></button>
-      </header>
+    </pageHeader>
 
-      <div class="modal-card-body">
+    <div>
         <div class="field">
             <div class="control">
                 <div class="select">
@@ -39,21 +37,21 @@
              </span>
         </div>
         <input-money v-model="account.balance"/>
-        <compact-picker v-model="account.colors" />
+        <compact-picker v-model="account.color" />
       </div>
 
-      <footer class="modal-card-foot">
+      <footer>
           <button class="button" @click="clearFields">Limpar</button>
           <button class="button is-success" @click="submit">Criar conta</button>
       </footer>
     </div>
-    </form>
-  </div>
+    
 </template>
 
 <script>
+import pageHeader from '~/components/page-header'
 import Vue from 'vue'
-import inputmoney from '~/components/input-money'
+import inputMoney from '~/components/input-money'
 import toID from '~/assets/toid'
 import {accountsLocal, accountsRemote} from '~/assets/database'
 import {Compact} from 'vue-color'
@@ -65,24 +63,44 @@ Vue.use(validate)
 export default {
     components:{
         'compact-picker': Compact,
-        'input-money': inputmoney
-        },
-    props: {
-        account: {
-            type: Object,
+        inputMoney, pageHeader
+    },
+    data () {
+        return {
+        account: null
         }
     },
-
+    asyncData ({params, error}) {
+        if (params.id) {
+            return accountsLocal.get(params.id)
+            .then((doc) => {
+                return {
+                    account: doc
+                }
+            }).catch((err) => {
+                error({ statusCode: 404, message: 'Nenhuma conta com esse nome foi encontrada' })
+            })
+        } else {
+            return {
+                account: {
+                    name: '',
+                    type: '',
+                    balance: 0,
+                    color: ''
+                }
+            }
+        }
+    },
     computed: {
         accountTypes () {
             return this.$store.state.accountTypes
         },
         id () {
             return toID(this.account.name)
+        },
+        title () {
+            return this.$route.params.id ? this.account.name : "Nova conta"
         }
-    },
-    data () {
-        return {}
     },
     methods: {
         submit () {
@@ -90,7 +108,7 @@ export default {
             .then((valid) => {
                 if (!valid) throw new Error('Erros de validação encontrados')
                 return accountsLocal.put({
-                    _id: this.id,
+                    _id: this.id, //computed
                     type: this.account.type,
                     balance: this.account.balance,
                     name: this.account.name,
@@ -113,16 +131,10 @@ export default {
 }
 </script>
 
-<style>
-    .card-active {
-        margin-top: 8px;
-        margin-bottom: 8px;
-    }
-    .account-name {
-        display: inline-flex;
-        margin-left: 16px;
-    }
-    select.is-danger {
-        border-color: #ff3860;
-    }
+<style lang="sass">
+ @import "bulma/sass/utilities/_all";
+ @import "bulma/sass/base/_all";
+ @import "bulma/sass/elements/button";
+ @import "bulma/sass/elements/form";
 </style>
+

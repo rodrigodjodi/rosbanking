@@ -1,3 +1,4 @@
+const path = require('path');
 module.exports = {
   mode: 'spa',
   /*
@@ -5,15 +6,17 @@ module.exports = {
   */
   build: {
     vendor: ['pouchdb'],
+    extend (config) {
+      const vueLoader = config.module.rules.find((rule) => rule.loader === 'vue-loader')
+      vueLoader.options.loaders.sass = 'vue-style-loader!css-loader!sass-loader?' + JSON.stringify({ includePaths: [path.resolve(__dirname), 'node_modules'] })
+    }
   },
   /*
   ** Headers
   ** Common headers are already provided by @nuxtjs/pwa preset
   */
   head: {
-    script: [
-      { src: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBwH-VO2mJrTH1ztauPOzeXDVEJEREvaP4&libraries=places' }
-    ],
+    
   },
   /*
   ** Customize the progress-bar color
@@ -32,7 +35,6 @@ module.exports = {
     '@nuxtjs/pwa'
   ],
   css: [
-    'bulma',
     { src: 'font-awesome/scss/font-awesome.scss', lang: 'scss' }
   ]
 }
