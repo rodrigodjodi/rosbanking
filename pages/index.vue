@@ -5,14 +5,7 @@
           Nova conta
         </a>
     </pageHeader>
-
-    <div>
-      <account-card v-for="account in accounts" :key="account.key" :account="account.doc"/>
-      <div :class="['network',online ? 'online' : 'offline']">
-        <div class="circle"></div>
-        {{ online ? 'online' : 'offline' }}
-      </div>
-    </div>
+    <account-card v-for="account in accounts" :key="account.key" :account="account.doc"/>
   </div>
 </template>
 
@@ -93,22 +86,8 @@ export default {
 }
 </script>
 
-<style>
-  .network {
-    font-weight: 400;
-    font-size: 1rem;
-  }
-
-  .network .circle {
-    display: inline-block;
-    width: 1rem;
-    height: 1rem;
-    background: green;
-    padding: .1rem .5rem;
-    border-radius: 1rem;
-  }
-
-  .network.offline .circle {
-    background: red;
-  }
+<style lang="sass">
+ @import "bulma/sass/utilities/_all";
+ @import "bulma/sass/base/_all";
+ @import "bulma/sass/elements/button.sass"
 </style>

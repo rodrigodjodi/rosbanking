@@ -53,7 +53,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .expanded {
         margin-top: 8px;
         margin-bottom: 8px;
@@ -72,4 +72,11 @@ export default {
     .action {
         width:6rem;
     }
+</style>
+<style lang="sass">
+    @import "bulma/sass/utilities/_all";
+ @import "bulma/sass/base/_all";
+ @import "bulma/sass/components/card.sass"
+</style>
+
 </style>
